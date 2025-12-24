@@ -12,45 +12,69 @@ body{margin:0;font-family:Arial;background:#f5f5f5}
 .content{padding:15px}
 .price{font-size:22px;font-weight:bold}
 select,input,button{width:100%;padding:12px;margin-top:10px}
-.slider{display:flex;gap:10px;overflow-x:auto;padding:10px}
-.card{min-width:120px;background:#eee;border-radius:10px;padding:5px;text-align:center}
-.card img{width:100%;height:120px;object-fit:cover;border-radius:8px}
 
-/* BUY NOW + ADD TO BAG BAR */
+/* ACTION BAR */
 .action-bar{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  background:#f1f1f1;
+  background:#f2f2f2;
   border-radius:40px;
-  padding:8px;
+  padding:10px;
   margin-top:15px;
+  animation:slideUp .6s ease;
 }
-.buy-now,.add-bag{
+.action-btn{
   flex:1;
-  background:none;
-  border:none;
+  text-align:center;
   font-weight:bold;
   cursor:pointer;
+  transition:.3s;
 }
-.icon-circle{
-  width:46px;height:46px;
-  background:#000;color:#ff5a5a;
+.action-btn:hover{transform:scale(1.05)}
+.center-icon{
+  width:48px;height:48px;
+  background:#000;color:#fff;
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:20px;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes slideUp{
+  from{transform:translateY(20px);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+  100%{transform:scale(1)}
+}
+
+/* SLIDER */
+.slider{display:flex;gap:10px;overflow-x:auto;padding:10px}
+.card{
+  min-width:120px;
+  background:#eee;
+  border-radius:10px;
+  padding:5px;
+  text-align:center;
+  animation:fadeIn .6s ease;
+}
+.card img{
+  width:100%;
+  height:120px;
+  object-fit:cover;
+  border-radius:8px;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:scale(1)}
 }
 
 /* CHECKOUT */
-.checkout{display:none;padding:20px}
-.cod,.pay,.wa{
-  border:none;border-radius:30px;
-  padding:12px;margin-top:10px;
-  color:#fff;
-}
-.cod{background:#000}
-.pay{background:#1877f2}
-.wa{background:#25d366}
+.checkout{display:none;padding:20px;animation:slideUp .6s ease}
+.cod{background:#000;color:#fff;border:none;border-radius:30px}
+.pay{background:#1877f2;color:#fff;border:none;border-radius:30px}
 </style>
 </head>
 
@@ -64,34 +88,28 @@ select,input,button{width:100%;padding:12px;margin-top:10px}
 <img id="mainImg" class="product-img" src="Ss/images/jacket-blue.jpg">
 
 <div class="content">
-<h2 id="title">Milan Sweatshirt</h2>
-<div class="price">₹<span id="price">1600</span></div>
+<h2 id="title">Winter Cap</h2>
+<div class="price">₹<span id="price">899</span></div>
 
 <select id="size">
-<option>S</option><option>M</option><option>L</option><option>XL</option>
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
 </select>
 
 <div class="action-bar">
-  <button class="buy-now" onclick="openCheckout()">BUY NOW</button>
-  <div class="icon-circle">👜</div>
-  <button class="add-bag" onclick="addToBag()">ADD TO BAG</button>
+  <div class="action-btn" onclick="openCheckout()">BUY NOW</div>
+  <div class="center-icon">🛍️</div>
+  <div class="action-btn" onclick="addToBag()">ADD TO BAG</div>
 </div>
 </div>
 
 <div class="slider">
-  <div class="card" onclick="changeProduct('Milan Sweatshirt',1600,'jacket-blue.jpg')">
-    <img src="Ss/images/jacket-blue.jpg"><p>Milan</p>
-  </div>
-  <div class="card" onclick="changeProduct('Green Jacket',1700,'jacket-green.jpg')">
-    <img src="Ss/images/jacket-green.jpg"><p>Green</p>
-  </div>
-  <div class="card" onclick="changeProduct('Cream Jacket',1500,'jacket-cream.jpg')">
-    <img src="Ss/images/jacket-cream.jpg"><p>Cream</p>
-  </div>
-  <div class="card" onclick="changeProduct('Black Cap',799,'cap-black.jpg')">
+  <div class="card" onclick="changeProduct('Winter Cap',899,'cap-black.jpg')">
     <img src="Ss/images/cap-black.jpg"><p>Cap</p>
   </div>
-  <div class="card" onclick="changeProduct('Winter Cap',899,'cap-winter.jpg')">
+  <div class="card" onclick="changeProduct('Winter Cap',999,'cap-winter.jpg')">
     <img src="Ss/images/cap-winter.jpg"><p>Winter</p>
   </div>
   <div class="card" onclick="changeProduct('Ear Muff',699,'ear-muff.jpg')">
@@ -108,17 +126,20 @@ select,input,button{width:100%;padding:12px;margin-top:10px}
 <p><b>Product:</b> <span id="cProduct"></span></p>
 <p><b>Price:</b> ₹<span id="cPrice"></span></p>
 
-<input id="name" placeholder="Full Name">
-<input id="phone" placeholder="Phone Number">
-<input id="address" placeholder="Full Address">
+<input placeholder="Full Name">
+<input placeholder="Phone Number">
+<input placeholder="Full Address">
 
 <select id="cSize">
-<option>S</option><option>M</option><option>L</option><option>XL</option>
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
 </select>
 
 <button class="cod" onclick="cod()">CASH ON DELIVERY</button>
 <button class="pay" onclick="pay()">PAY ONLINE</button>
-<button class="wa" onclick="whatsappOrder()">ORDER ON WHATSAPP</button>
+<button class="pay" onclick="whatsappOrder()">ORDER ON WHATSAPP</button>
 </div>
 
 </div>
@@ -129,24 +150,29 @@ function changeProduct(name,price,img){
   document.getElementById("price").innerText=price;
   document.getElementById("mainImg").src="Ss/images/"+img;
 }
+
 function openCheckout(){
-  productPage.style.display="none";
-  checkoutPage.style.display="block";
-  cProduct.innerText=title.innerText;
-  cPrice.innerText=price.innerText;
-  cSize.value=size.value;
+  document.getElementById("productPage").style.display="none";
+  document.getElementById("checkoutPage").style.display="block";
+  document.getElementById("cProduct").innerText=title.innerText;
+  document.getElementById("cPrice").innerText=price.innerText;
+  document.getElementById("cSize").value=size.value;
 }
+
 function addToBag(){
-  alert("Product added to bag 🛍️");
+  alert("Item added to bag 🛒");
 }
+
 function cod(){
   alert("Order placed successfully (Cash on Delivery)");
 }
+
 function pay(){
   alert("Online payment coming soon");
 }
+
 function whatsappOrder(){
-  let msg=`🛍️ New Order%0AProduct: ${title.innerText}%0APrice: ₹${price.innerText}%0ASize: ${cSize.value}`;
+  let msg=`🛍️ New Order%0AProduct: ${title.innerText}%0APrice: ₹${price.innerText}%0ASize: ${size.value}`;
   window.open("https://wa.me/9149561990?text="+msg,"_blank");
 }
 </script>
