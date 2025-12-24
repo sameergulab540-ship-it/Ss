@@ -12,15 +12,45 @@ body{margin:0;font-family:Arial;background:#f5f5f5}
 .content{padding:15px}
 .price{font-size:22px;font-weight:bold}
 select,input,button{width:100%;padding:12px;margin-top:10px}
-.buy-btn{background:#000;color:#fff;border:none;border-radius:30px;font-size:16px}
 .slider{display:flex;gap:10px;overflow-x:auto;padding:10px}
 .card{min-width:120px;background:#eee;border-radius:10px;padding:5px;text-align:center}
 .card img{width:100%;height:120px;object-fit:cover;border-radius:8px}
 
+/* BUY NOW + ADD TO BAG BAR */
+.action-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#f1f1f1;
+  border-radius:40px;
+  padding:8px;
+  margin-top:15px;
+}
+.buy-now,.add-bag{
+  flex:1;
+  background:none;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+}
+.icon-circle{
+  width:46px;height:46px;
+  background:#000;color:#ff5a5a;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+}
+
 /* CHECKOUT */
 .checkout{display:none;padding:20px}
-.cod{background:#000;color:#fff;border:none;border-radius:30px}
-.pay{background:#1877f2;color:#fff;border:none;border-radius:30px}
+.cod,.pay,.wa{
+  border:none;border-radius:30px;
+  padding:12px;margin-top:10px;
+  color:#fff;
+}
+.cod{background:#000}
+.pay{background:#1877f2}
+.wa{background:#25d366}
 </style>
 </head>
 
@@ -38,13 +68,14 @@ select,input,button{width:100%;padding:12px;margin-top:10px}
 <div class="price">₹<span id="price">1600</span></div>
 
 <select id="size">
-<option>S</option>
-<option>M</option>
-<option>L</option>
-<option>XL</option>
+<option>S</option><option>M</option><option>L</option><option>XL</option>
 </select>
 
-<button class="buy-btn" onclick="openCheckout()">BUY NOW</button>
+<div class="action-bar">
+  <button class="buy-now" onclick="openCheckout()">BUY NOW</button>
+  <div class="icon-circle">👜</div>
+  <button class="add-bag" onclick="addToBag()">ADD TO BAG</button>
+</div>
 </div>
 
 <div class="slider">
@@ -57,6 +88,15 @@ select,input,button{width:100%;padding:12px;margin-top:10px}
   <div class="card" onclick="changeProduct('Cream Jacket',1500,'jacket-cream.jpg')">
     <img src="Ss/images/jacket-cream.jpg"><p>Cream</p>
   </div>
+  <div class="card" onclick="changeProduct('Black Cap',799,'cap-black.jpg')">
+    <img src="Ss/images/cap-black.jpg"><p>Cap</p>
+  </div>
+  <div class="card" onclick="changeProduct('Winter Cap',899,'cap-winter.jpg')">
+    <img src="Ss/images/cap-winter.jpg"><p>Winter</p>
+  </div>
+  <div class="card" onclick="changeProduct('Ear Muff',699,'ear-muff.jpg')">
+    <img src="Ss/images/ear-muff.jpg"><p>Ear Muff</p>
+  </div>
 </div>
 
 </div>
@@ -68,72 +108,48 @@ select,input,button{width:100%;padding:12px;margin-top:10px}
 <p><b>Product:</b> <span id="cProduct"></span></p>
 <p><b>Price:</b> ₹<span id="cPrice"></span></p>
 
-<input placeholder="Full Name">
-<input placeholder="Phone Number">
-<input placeholder="Full Address">
+<input id="name" placeholder="Full Name">
+<input id="phone" placeholder="Phone Number">
+<input id="address" placeholder="Full Address">
 
 <select id="cSize">
-<option>S</option>
-<option>M</option>
-<option>L</option>
-<option>XL</option>
+<option>S</option><option>M</option><option>L</option><option>XL</option>
 </select>
 
 <button class="cod" onclick="cod()">CASH ON DELIVERY</button>
 <button class="pay" onclick="pay()">PAY ONLINE</button>
-<button class="pay" onclick="whatsappOrder()">ORDER ON WHATSAPP</button>
+<button class="wa" onclick="whatsappOrder()">ORDER ON WHATSAPP</button>
 </div>
 
 </div>
 
 <script>
 function changeProduct(name,price,img){
-  document.getElementById("title").innerText = name;
-  document.getElementById("price").innerText = price;
-  document.getElementById("mainImg").src = "Ss/images/" + img;
+  document.getElementById("title").innerText=name;
+  document.getElementById("price").innerText=price;
+  document.getElementById("mainImg").src="Ss/images/"+img;
 }
-
 function openCheckout(){
-  document.getElementById("productPage").style.display="none";
-  document.getElementById("checkoutPage").style.display="block";
-
-  document.getElementById("cProduct").innerText =
-    document.getElementById("title").innerText;
-
-  document.getElementById("cPrice").innerText =
-    document.getElementById("price").innerText;
-
-  document.getElementById("cSize").value =
-    document.getElementById("size").value;
+  productPage.style.display="none";
+  checkoutPage.style.display="block";
+  cProduct.innerText=title.innerText;
+  cPrice.innerText=price.innerText;
+  cSize.value=size.value;
 }
-
+function addToBag(){
+  alert("Product added to bag 🛍️");
+}
 function cod(){
   alert("Order placed successfully (Cash on Delivery)");
 }
-
 function pay(){
   alert("Online payment coming soon");
 }
-
 function whatsappOrder(){
-  var product = document.getElementById("title").innerText;
-  var price = document.getElementById("price").innerText;
-  var size = document.getElementById("size").value;
-
-  var msg =
-    "🛍️ *New Order*%0A%0A" +
-    "📦 Product: " + product + "%0A" +
-    "💰 Price: ₹" + price + "%0A" +
-    "📏 Size: " + size + "%0A%0A" +
-    "Please confirm my order.";
-
-  var phone = "9149561990"; // 👈 apna WhatsApp number yaha daalo
-
-  window.open("https://wa.me/" + phone + "?text=" + msg, "_blank");
+  let msg=`🛍️ New Order%0AProduct: ${title.innerText}%0APrice: ₹${price.innerText}%0ASize: ${cSize.value}`;
+  window.open("https://wa.me/9149561990?text="+msg,"_blank");
 }
 </script>
 
 </body>
 </html>
-
-
