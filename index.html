@@ -31,7 +31,7 @@ select,input,button{width:100%;padding:12px;margin-top:10px}
 <!-- PRODUCT PAGE -->
 <div id="productPage">
 
-<img id="mainImg" class="product-img" src="images/jacket-blue.jpg">
+<img id="mainImg" class="product-img" src="Ss/images/jacket-blue.jpg">
 
 <div class="content">
 <h2 id="title">Milan Sweatshirt</h2>
@@ -49,13 +49,13 @@ select,input,button{width:100%;padding:12px;margin-top:10px}
 
 <div class="slider">
   <div class="card" onclick="changeProduct('Milan Sweatshirt',1600,'jacket-blue.jpg')">
-    <img src="images/jacket-blue.jpg"><p>Milan</p>
+    <img src="Ss/images/jacket-blue.jpg"><p>Milan</p>
   </div>
   <div class="card" onclick="changeProduct('Green Jacket',1700,'jacket-green.jpg')">
-    <img src="images/jacket-green.jpg"><p>Green</p>
+    <img src="Ss/images/jacket-green.jpg"><p>Green</p>
   </div>
   <div class="card" onclick="changeProduct('Cream Jacket',1500,'jacket-cream.jpg')">
-    <img src="images/jacket-cream.jpg"><p>Cream</p>
+    <img src="Ss/images/jacket-cream.jpg"><p>Cream</p>
   </div>
 </div>
 
@@ -81,6 +81,7 @@ select,input,button{width:100%;padding:12px;margin-top:10px}
 
 <button class="cod" onclick="cod()">CASH ON DELIVERY</button>
 <button class="pay" onclick="pay()">PAY ONLINE</button>
+<button class="pay" onclick="whatsappOrder()">ORDER ON WHATSAPP</button>
 </div>
 
 </div>
@@ -113,8 +114,24 @@ function cod(){
 function pay(){
   alert("Online payment coming soon");
 }
+
+function whatsappOrder(){
+  var product = document.getElementById("title").innerText;
+  var price = document.getElementById("price").innerText;
+  var size = document.getElementById("size").value;
+
+  var msg =
+    "🛍️ *New Order*%0A%0A" +
+    "📦 Product: " + product + "%0A" +
+    "💰 Price: ₹" + price + "%0A" +
+    "📏 Size: " + size + "%0A%0A" +
+    "Please confirm my order.";
+
+  var phone = "919999999999"; // 👈 apna WhatsApp number yaha daalo
+
+  window.open("https://wa.me/" + phone + "?text=" + msg, "_blank");
+}
 </script>
 
 </body>
-
 </html>
