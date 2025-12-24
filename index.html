@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Arial;background:#f5f5f5}
+.container{max-width:420px;margin:auto;background:#fff;min-height:100vh}
+.product-img{width:100%;height:360px;object-fit:cover}
+.content{padding:15px}
+.price{font-size:22px;font-weight:bold}
+select,input,button{width:100%;padding:12px;margin-top:10px}
+.buy-btn{background:#000;color:#fff;border:none;border-radius:30px;font-size:16px}
+.slider{display:flex;gap:10px;overflow-x:auto;padding:10px}
+.card{min-width:120px;background:#eee;border-radius:10px;padding:5px;text-align:center}
+.card img{width:100%;height:120px;object-fit:cover;border-radius:8px}
+
+/* CHECKOUT */
+.checkout{display:none;padding:20px}
+.cod{background:#000;color:#fff;border:none;border-radius:30px}
+.pay{background:#1877f2;color:#fff;border:none;border-radius:30px}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- PRODUCT PAGE -->
+<div id="productPage">
+
+<img id="mainImg" class="product-img" src="images/jacket-blue.jpg">
+
+<div class="content">
+<h2 id="title">Milan Sweatshirt</h2>
+<div class="price">₹<span id="price">1600</span></div>
+
+<select id="size">
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
+</select>
+
+<button class="buy-btn" onclick="openCheckout()">BUY NOW</button>
+</div>
+
+<div class="slider">
+  <div class="card" onclick="changeProduct('Milan Sweatshirt',1600,'jacket-blue.jpg')">
+    <img src="images/jacket-blue.jpg"><p>Milan</p>
+  </div>
+  <div class="card" onclick="changeProduct('Green Jacket',1700,'jacket-green.jpg')">
+    <img src="images/jacket-green.jpg"><p>Green</p>
+  </div>
+  <div class="card" onclick="changeProduct('Cream Jacket',1500,'jacket-cream.jpg')">
+    <img src="images/jacket-cream.jpg"><p>Cream</p>
+  </div>
+</div>
+
+</div>
+
+<!-- CHECKOUT PAGE -->
+<div id="checkoutPage" class="checkout">
+<h2>Checkout</h2>
+
+<p><b>Product:</b> <span id="cProduct"></span></p>
+<p><b>Price:</b> ₹<span id="cPrice"></span></p>
+
+<input placeholder="Full Name">
+<input placeholder="Phone Number">
+<input placeholder="Full Address">
+
+<select id="cSize">
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
+</select>
+
+<button class="cod" onclick="cod()">CASH ON DELIVERY</button>
+<button class="pay" onclick="pay()">PAY ONLINE</button>
+</div>
+
+</div>
+
+<script>
+function changeProduct(name,price,img){
+  document.getElementById("title").innerText = name;
+  document.getElementById("price").innerText = price;
+  document.getElementById("mainImg").src = "images/" + img;
+}
+
+function openCheckout(){
+  document.getElementById("productPage").style.display="none";
+  document.getElementById("checkoutPage").style.display="block";
+
+  document.getElementById("cProduct").innerText =
+    document.getElementById("title").innerText;
+
+  document.getElementById("cPrice").innerText =
+    document.getElementById("price").innerText;
+
+  document.getElementById("cSize").value =
+    document.getElementById("size").value;
+}
+
+function cod(){
+  alert("Order placed successfully (Cash on Delivery)");
+}
+
+function pay(){
+  alert("Online payment coming soon");
+}
+</script>
+
+</body>
+</html>
