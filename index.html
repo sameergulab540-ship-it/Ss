@@ -1,56 +1,109 @@
 <!DOCTYPE html>
-  height:calc(100% - 12px);
-  width:50%;
-  background:#000;
-  border-radius:40px;
-  transition:0.4s ease;
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Arial;background:#f5f5f5}
+.container{max-width:420px;margin:auto;background:#fff;min-height:100vh}
+
+.product-img{
+  width:100%;
+  height:360px;
+  object-fit:cover;
+  animation:fadeIn .6s ease;
 }
 
-.action-bar.active .slider-btn{
-  left:calc(50% - 6px);
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95)}
+  to{opacity:1;transform:scale(1)}
+}
+
+.content{padding:15px}
+.price{font-size:22px;font-weight:bold}
+
+select,input{width:100%;padding:12px;margin-top:10px}
+
+/* ACTION BAR */
+.action-bar{
+  display:flex;
+  align-items:center;
+  background:#f1f1f1;
+  border-radius:40px;
+  padding:6px;
+  margin-top:15px;
+  position:relative;
+  overflow:hidden;
+}
+
+.slider-btn{
+  position:absolute;
+  width:50%;
+  height:100%;
+  background:#000;
+  border-radius:40px;
+  left:0;
+  transition:.4s ease;
+  z-index:1;
 }
 
 .action-btn{
   flex:1;
-  text-align:center;
-  z-index:2;
+  background:none;
+  border:none;
   font-weight:bold;
+  padding:14px;
   cursor:pointer;
+  z-index:2;
   color:#000;
 }
 
-.action-bar.active .add{
-  color:#fff;
-}
-.action-bar:not(.active) .buy{
-  color:#fff;
-}
+.action-btn.active{color:#fff}
 
-/* ===== CARD SLIDE ANIMATION ===== */
+/* SLIDER */
 .slider{
   display:flex;
   gap:10px;
   overflow-x:auto;
   padding:10px;
-  scroll-behavior:smooth;
 }
+
 .card{
   min-width:120px;
   background:#eee;
   border-radius:12px;
   padding:5px;
   text-align:center;
-  transition:transform .3s;
+  animation:slideUp .5s ease;
 }
-.card:hover{
-  transform:scale(1.05);
+
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
 }
+
 .card img{
   width:100%;
   height:120px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:8px;
 }
+
+/* CHECKOUT */
+.checkout{display:none;padding:20px}
+.cod,.pay{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  margin-top:10px;
+  color:#fff;
+  font-weight:bold;
+}
+.cod{background:#000}
+.pay{background:#25D366}
 </style>
 </head>
 
@@ -58,54 +111,88 @@
 
 <div class="container">
 
+<!-- PRODUCT -->
+<div id="productPage">
 <img id="mainImg" class="product-img" src="Ss/images/jacket-blue.jpg">
 
 <div class="content">
-  <h2 id="title">Winter Cap</h2>
-  <div class="price">₹<span id="price">899</span></div>
+<h2 id="title">Milan Sweatshirt</h2>
+<div class="price">₹<span id="price">1600</span></div>
 
-  <select id="size">
-    <option>S</option>
-    <option>M</option>
-    <option>L</option>
-  </select>
+<select id="size">
+<option>S</option><option>M</option><option>L</option><option>XL</option>
+</select>
 
-  <!-- SLIDE BUY / ADD -->
-  <div class="action-bar" id="bar">
-    <div class="slider-btn"></div>
-    <div class="action-btn buy" onclick="buyNow()">BUY NOW</div>
-    <div class="action-btn add" onclick="addBag()">ADD TO BAG</div>
-  </div>
+<div class="action-bar">
+  <div id="slider" class="slider-btn"></div>
+  <button class="action-btn active" onclick="buyNow()">BUY NOW</button>
+  <button class="action-btn" onclick="addBag()">ADD TO BAG</button>
+</div>
 </div>
 
 <div class="slider">
-  <div class="card" onclick="changeProduct('Cap',899,'cap.jpg')">
-    <img src="Ss/images/cap.jpg"><p>Cap</p>
+  <div class="card" onclick="changeProduct('Milan Sweatshirt',1600,'jacket-blue.jpg')">
+    <img src="Ss/images/jacket-blue.jpg"><p>Milan</p>
   </div>
-  <div class="card" onclick="changeProduct('Winter',999,'winter.jpg')">
-    <img src="Ss/images/winter.jpg"><p>Winter</p>
+  <div class="card" onclick="changeProduct('Green Jacket',1700,'jacket-green.jpg')">
+    <img src="Ss/images/jacket-green.jpg"><p>Green</p>
   </div>
-  <div class="card" onclick="changeProduct('Ear Muff',699,'ear.jpg')">
-    <img src="Ss/images/ear.jpg"><p>Ear Muff</p>
+  <div class="card" onclick="changeProduct('Cream Jacket',1500,'jacket-cream.jpg')">
+    <img src="Ss/images/jacket-cream.jpg"><p>Cream</p>
   </div>
+</div>
+</div>
+
+<!-- CHECKOUT -->
+<div id="checkoutPage" class="checkout">
+<h2>Checkout</h2>
+<p><b>Product:</b> <span id="cProduct"></span></p>
+<p><b>Price:</b> ₹<span id="cPrice"></span></p>
+
+<input placeholder="Full Name">
+<input placeholder="Phone Number">
+<input placeholder="Address">
+
+<select id="cSize">
+<option>S</option><option>M</option><option>L</option><option>XL</option>
+</select>
+
+<button class="cod">CASH ON DELIVERY</button>
+<button class="pay" onclick="whatsappOrder()">ORDER ON WHATSAPP</button>
 </div>
 
 </div>
 
 <script>
-function addBag(){
-  document.getElementById("bar").classList.add("active");
+function changeProduct(n,p,i){
+  title.innerText=n;price.innerText=p;
+  mainImg.src="Ss/images/"+i;
 }
 
 function buyNow(){
-  document.getElementById("bar").classList.remove("active");
-  alert("Proceed to checkout");
+  slider.style.left="0";
+  document.querySelectorAll(".action-btn").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+  setTimeout(openCheckout,300);
 }
 
-function changeProduct(name,price,img){
-  document.getElementById("title").innerText=name;
-  document.getElementById("price").innerText=price;
-  document.getElementById("mainImg").src="Ss/images/"+img;
+function addBag(){
+  slider.style.left="50%";
+  document.querySelectorAll(".action-btn").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+}
+
+function openCheckout(){
+  productPage.style.display="none";
+  checkoutPage.style.display="block";
+  cProduct.innerText=title.innerText;
+  cPrice.innerText=price.innerText;
+  cSize.value=size.value;
+}
+
+function whatsappOrder(){
+  let msg=`🛍️ Order\nProduct: ${title.innerText}\nPrice: ₹${price.innerText}\nSize: ${size.value}`;
+  window.open("https://wa.me/9149561990?text="+encodeURIComponent(msg));
 }
 </script>
 
